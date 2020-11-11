@@ -99,12 +99,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 Destroy(other.gameObject);
 
                 // Give a reward
-                playerAgent.AddReward(1);
+                playerAgent.GotPowerUp();
 
                 // Briefly show a color indicator
 
-                // New episode
-                playerAgent.EndEpisode();
             }
         }
     }

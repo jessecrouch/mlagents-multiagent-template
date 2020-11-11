@@ -9,10 +9,23 @@ using UnityStandardAssets.Characters.ThirdPerson;
 public class PlayerAgent : Agent
 {
     private ThirdPersonUserControl userControl;
+    public Transform ground;
+    private float groundX;
+    private float groundZ;
+    private Mesh mesh;
+    private Bounds bounds;
 
     public override void Initialize()
     {
         userControl = GetComponentInChildren<ThirdPersonUserControl>();
+
+        // Get the bounds of the arena's ground, minus the walls
+        Mesh mesh = ground.GetComponent<MeshFilter>().mesh;
+        Bounds bounds = mesh.bounds;
+        // Debug.Log("Bounds: " + (bounds.min.x, bounds.max.x));
+
+        // Set a random spawn position within the bounds
+        transform.localPosition = new Vector3(Random.Range(bounds.min.x, bounds.max.x), 0, Random.Range(bounds.min.z, bounds.max.z));
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -28,6 +41,13 @@ public class PlayerAgent : Agent
 
     public override void OnEpisodeBegin()
     {
+        // Get the bounds of the arena's ground, minus the walls
+        Mesh mesh = ground.GetComponent<MeshFilter>().mesh;
+        Bounds bounds = mesh.bounds;
+        // Debug.Log("Bounds: " + (bounds.min.x, bounds.max.x));
+        Debug.Log("begin");
+        // Set a random spawn position within the bounds
+        transform.localPosition = new Vector3(Random.Range(bounds.min.x, bounds.max.x), 0, Random.Range(bounds.min.z, bounds.max.z));
     }
 
     public override void Heuristic(float[] actionsOut)
@@ -40,5 +60,14 @@ public class PlayerAgent : Agent
     private void RandomPosition()
     {
 
+    }
+
+    public void GotPowerUp()
+    {
+        // Good job, Agent
+        AddReward(1f);
+
+        // By marking an agent as done AgentReset() will be called automatically.
+        EndEpisode();
     }
 }
