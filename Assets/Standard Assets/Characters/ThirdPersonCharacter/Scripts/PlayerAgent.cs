@@ -14,23 +14,21 @@ public class PlayerAgent : Agent
     private float groundZ;
     private Mesh mesh;
     private Bounds bounds;
+    private float wallSize = 1;
 
     public override void Initialize()
     {
         userControl = GetComponentInChildren<ThirdPersonUserControl>();
 
-        // Get the bounds of the arena's ground, minus the walls
-        Mesh mesh = ground.GetComponent<MeshFilter>().mesh;
-        Bounds bounds = mesh.bounds;
-        // Debug.Log("Bounds: " + (bounds.min.x, bounds.max.x));
-
         // Set a random spawn position within the bounds
-        transform.localPosition = new Vector3(Random.Range(bounds.min.x, bounds.max.x), 0, Random.Range(bounds.min.z, bounds.max.z));
+        transform.position = GenerateRandomPosition();
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // sensor.AddObservation();
+        // Ray Perception Sensor is automatically collected
+        // and no Vector Size needs to be added for it
+        // Otherwise, use: sensor.AddObservation();
     }
 
     public override void OnActionReceived(float[] vectorAction)
@@ -41,13 +39,8 @@ public class PlayerAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        // Get the bounds of the arena's ground, minus the walls
-        Mesh mesh = ground.GetComponent<MeshFilter>().mesh;
-        Bounds bounds = mesh.bounds;
-        // Debug.Log("Bounds: " + (bounds.min.x, bounds.max.x));
-        Debug.Log("begin");
         // Set a random spawn position within the bounds
-        transform.localPosition = new Vector3(Random.Range(bounds.min.x, bounds.max.x), 0, Random.Range(bounds.min.z, bounds.max.z));
+        transform.position = GenerateRandomPosition();
     }
 
     public override void Heuristic(float[] actionsOut)
@@ -57,9 +50,27 @@ public class PlayerAgent : Agent
         // actionsOut[2] = Input.GetKey(KeyCode.C); // crouch
     }
 
-    private void RandomPosition()
+    /// <summary>
+    /// Generate a random position for the PlayerAgent or powerup
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GenerateRandomPosition()
     {
+        // Get the bounds of the arena's ground
+        Mesh mesh = ground.GetComponent<MeshFilter>().mesh;
+        Bounds bounds = mesh.bounds;
+        // Debug.Log("X Bounds: " + (bounds.min.x, bounds.max.x));
+        // Debug.Log("Z Bounds: " + (bounds.min.z, bounds.max.z));
 
+        // Subtract the walls from the bounds
+        bounds.SetMinMax(bounds.min + new Vector3(wallSize, 0, wallSize), bounds.max - new Vector3(wallSize, 0, wallSize));
+        // Debug.Log("X Bounds minus wall: " + (bounds.min.x, bounds.max.x));
+        // Debug.Log("Z Bounds minus wall: " + (bounds.min.x, bounds.max.x));
+
+        // Set a random spawn position within the bounds
+        Vector3 randomPos = new Vector3(Random.Range(bounds.min.x, bounds.max.x), 0, Random.Range(bounds.min.z, bounds.max.z));
+
+        return randomPos;
     }
 
     public void GotPowerUp()
