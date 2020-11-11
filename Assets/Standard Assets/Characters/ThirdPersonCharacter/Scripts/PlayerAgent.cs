@@ -36,4 +36,9 @@ public class PlayerAgent : Agent
         actionsOut[1] = CrossPlatformInputManager.GetAxis("Horizontal"); // sideways
         // actionsOut[2] = Input.GetKey(KeyCode.C); // crouch
     }
+
+    private void RandomPosition()
+    {
+
+    }
 }

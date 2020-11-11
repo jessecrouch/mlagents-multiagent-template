@@ -84,5 +84,20 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             m_Character.Move(m_Move, crouch, m_Jump);
             m_Jump = false;
         }
+
+
+        private void OnTriggerEnter(Collider other)
+        {
+            // If the thing a player runs into is a powerup
+            if (other.CompareTag("powerup"))
+            {
+                // Remove the powerup
+                Destroy(other.gameObject);
+
+                // Give a reward
+
+                // Briefly show a color indicator
+            }
+        }
     }
 }
