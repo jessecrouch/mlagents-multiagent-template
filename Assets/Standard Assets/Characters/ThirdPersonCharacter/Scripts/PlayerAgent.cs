@@ -14,6 +14,7 @@ public class PlayerAgent : Agent
     private Bounds bounds;
     private float wallSize = 3f;
     public GameObject powerupPrefab;
+    public GameObject arena;
 
     public override void Initialize()
     {
@@ -44,10 +45,12 @@ public class PlayerAgent : Agent
         // Set a random spawn position within the bounds
         Vector3 playerRandPos = GenerateRandomPosition(-1.3f);
         Vector3 powerupRandPos = GenerateRandomPosition(0.5f);
-        transform.position = playerRandPos;
+        transform.localPosition = playerRandPos;
 
         // Randomly spawn a powerup
-        Instantiate(powerupPrefab, powerupRandPos, powerupPrefab.transform.rotation);
+        GameObject powerup = Instantiate(powerupPrefab) as GameObject;
+        powerup.transform.parent = arena.transform;
+        powerup.transform.localPosition = powerupRandPos;
 
         // Debug.Log("PlayerRandPos: " + playerRandPos);
         // Debug.Log("PowerupRandPos: " + powerupRandPos);
