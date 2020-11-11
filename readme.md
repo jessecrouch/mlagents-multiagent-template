@@ -7,15 +7,18 @@ The most basic, modular [ML-Agents](https://github.com/Unity-Technologies/ml-age
 * PlayerAgent learns to grab the powerup
   * Using `Ray Perception Sensor`
 
-
-
 ## Requirements
 
 * [ml-agents](https://github.com/Unity-Technologies/ml-agents)
 * [Standard Assets](https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-for-unity-2018-4-32351)
 
-
-
 ## Notes
 
 * The entire Standard Assets library is included so that you can play around with the other assets (vehicles, ball character, etc) if you want
+
+## Run
+
+From the folder where you have ml-agents installed:
+
+* mlagents-learn config\ppo\BasicCharacterMovement.yaml --run-id=bcm01 --force
+* tensorboard --logdir results --port 6006
