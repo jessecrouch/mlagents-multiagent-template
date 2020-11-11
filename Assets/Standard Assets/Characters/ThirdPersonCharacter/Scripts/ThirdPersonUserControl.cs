@@ -16,9 +16,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         // Grab inputs that are set by PlayerAgent
         public float horizontalInput;
         public float verticalInput;
+        private PlayerAgent playerAgent;
 
         private void Start()
         {
+            playerAgent = GetComponentInParent<PlayerAgent>();
+
             // get the transform of the main camera
             if (Camera.main != null)
             {
@@ -55,8 +58,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             // Create a public variable for forward and sideways in this script
             // Reference it in the Agent script: userControl = GetComponentInChildren<ThirdPersonUserControl>();
             // And set the vaule of it in OnActionReceived() { 
-            // userControl.forward.value = actions[0];
-            // userControl.sideways.value = actions[1];
+            // userControl.verticalInput = vectorAction[0];
+            // userControl.horizontalInput = vectorAction[1]; }
+            // 
             //
 
             float h = horizontalInput;
@@ -95,8 +99,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 Destroy(other.gameObject);
 
                 // Give a reward
+                playerAgent.AddReward(1);
 
                 // Briefly show a color indicator
+
+                // New episode
+                playerAgent.EndEpisode();
             }
         }
     }
