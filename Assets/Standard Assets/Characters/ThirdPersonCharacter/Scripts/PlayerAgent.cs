@@ -14,14 +14,12 @@ public class PlayerAgent : Agent
     private float groundZ;
     private Mesh mesh;
     private Bounds bounds;
-    private float wallSize = 1;
+    private float wallSize = 3f;
+    public GameObject powerupPrefab;
 
     public override void Initialize()
     {
         userControl = GetComponentInChildren<ThirdPersonUserControl>();
-
-        // Set a random spawn position within the bounds
-        transform.position = GenerateRandomPosition();
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -33,6 +31,12 @@ public class PlayerAgent : Agent
 
     public override void OnActionReceived(float[] vectorAction)
     {
+        // Every step, encourage the Agent to move
+        AddReward(-0.01f);
+
+        // Map vectorAction, which will either be from Heuristic() or 
+        // behavior inference to the input variables so that we can feed
+        // them to the ThirdPersonUserControl.cs->FixedUpdate()
         userControl.verticalInput = vectorAction[0];
         userControl.horizontalInput = vectorAction[1];
     }
@@ -40,7 +44,15 @@ public class PlayerAgent : Agent
     public override void OnEpisodeBegin()
     {
         // Set a random spawn position within the bounds
-        transform.position = GenerateRandomPosition();
+        Vector3 playerRandPos = GenerateRandomPosition(-1.3f);
+        Vector3 powerupRandPos = GenerateRandomPosition(0.5f);
+        transform.position = playerRandPos;
+
+        // Randomly spawn a powerup
+        Instantiate(powerupPrefab, powerupRandPos, powerupPrefab.transform.rotation);
+
+        Debug.Log("PlayerRandPos: " + playerRandPos);
+        Debug.Log("PowerupRandPos: " + powerupRandPos);
     }
 
     public override void Heuristic(float[] actionsOut)
@@ -54,7 +66,7 @@ public class PlayerAgent : Agent
     /// Generate a random position for the PlayerAgent or powerup
     /// </summary>
     /// <returns></returns>
-    private Vector3 GenerateRandomPosition()
+    private Vector3 GenerateRandomPosition(float yPos)
     {
         // Get the bounds of the arena's ground
         Mesh mesh = ground.GetComponent<MeshFilter>().mesh;
@@ -64,11 +76,12 @@ public class PlayerAgent : Agent
 
         // Subtract the walls from the bounds
         bounds.SetMinMax(bounds.min + new Vector3(wallSize, 0, wallSize), bounds.max - new Vector3(wallSize, 0, wallSize));
-        // Debug.Log("X Bounds minus wall: " + (bounds.min.x, bounds.max.x));
-        // Debug.Log("Z Bounds minus wall: " + (bounds.min.x, bounds.max.x));
+        Debug.Log("X Bounds minus wall: " + (bounds.min.x, bounds.max.x));
+        Debug.Log("Z Bounds minus wall: " + (bounds.min.x, bounds.max.x));
 
         // Set a random spawn position within the bounds
-        Vector3 randomPos = new Vector3(Random.Range(bounds.min.x, bounds.max.x), 0, Random.Range(bounds.min.z, bounds.max.z));
+        Vector3 randomPos = new Vector3(Random.Range(bounds.min.x, bounds.max.x), yPos, Random.Range(bounds.min.z, bounds.max.z));
+        Debug.Log("Randompos: " + randomPos);
 
         return randomPos;
     }
