@@ -13,7 +13,7 @@ public class PlayerAgent : Agent
     public Transform ground;
     private Mesh mesh;
     private Bounds bounds;
-    private float wallSize = 4f;
+    private float wallSize = 2f;
     public GameObject powerupPrefab;
     public GameObject arena;
 
@@ -28,6 +28,8 @@ public class PlayerAgent : Agent
         // Ray Perception Sensor is automatically collected
         // and no Vector Size needs to be added for it
         // Otherwise, use: sensor.AddObservation();
+        //
+        // Make sure when observing positions to use localPosition!
 
         sensor.AddObservation(character.transform.localPosition);
         // sensor.AddObservation(arena.GetComponentsInChildren<powerup>)
