@@ -9,16 +9,18 @@ using UnityStandardAssets.Characters.ThirdPerson;
 public class PlayerAgent : Agent
 {
     private ThirdPersonUserControl userControl;
+    private ThirdPersonCharacter character;
     public Transform ground;
     private Mesh mesh;
     private Bounds bounds;
-    private float wallSize = 3f;
+    private float wallSize = 4f;
     public GameObject powerupPrefab;
     public GameObject arena;
 
     public override void Initialize()
     {
         userControl = GetComponentInChildren<ThirdPersonUserControl>();
+        character = GetComponentInChildren<ThirdPersonCharacter>();
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -26,6 +28,19 @@ public class PlayerAgent : Agent
         // Ray Perception Sensor is automatically collected
         // and no Vector Size needs to be added for it
         // Otherwise, use: sensor.AddObservation();
+
+        sensor.AddObservation(character.transform.localPosition);
+        // sensor.AddObservation(arena.GetComponentsInChildren<powerup>)
+
+        // Tell it explictly where the powerup is (not just letting it raycast find it)
+        // foreach (Transform child in arena.transform)
+        // {
+        //     if (child.CompareTag("powerup"))
+        //     {
+        //         sensor.AddObservation(child.transform.localPosition);
+        //         //Debug.Log(child.gameObject.transform.localPosition);
+        //     }
+        // }
     }
 
     public override void OnActionReceived(float[] vectorAction)
@@ -42,10 +57,17 @@ public class PlayerAgent : Agent
 
     public override void OnEpisodeBegin()
     {
+        // Slow that bitch down
+        userControl.verticalInput = 0;
+        userControl.horizontalInput = 0;
+
+        // Remove all the previous powerups
+        RemoveAllPowerups();
+
         // Set a random spawn position within the bounds
-        Vector3 playerRandPos = GenerateRandomPosition(-1.3f);
+        Vector3 playerRandPos = GenerateRandomPosition(1.7f);
         Vector3 powerupRandPos = GenerateRandomPosition(0.5f);
-        transform.localPosition = playerRandPos;
+        character.transform.localPosition = playerRandPos;
 
         // Randomly spawn a powerup
         GameObject powerup = Instantiate(powerupPrefab) as GameObject;
@@ -94,5 +116,16 @@ public class PlayerAgent : Agent
 
         // By marking an agent as done AgentReset() will be called automatically.
         EndEpisode();
+
+        Debug.Log("Grabbed a powerup!");
+    }
+
+    public void RemoveAllPowerups()
+    {
+        foreach (Transform child in arena.transform)
+            if (child.CompareTag("powerup"))
+            {
+                Destroy(child.gameObject);
+            }
     }
 }

@@ -1536,7 +1536,7 @@ GameObject:
   - component: {fileID: 3778200274096017351}
   - component: {fileID: 3778200274093976737}
   - component: {fileID: 3778200274093870213}
-  - component: {fileID: 3778200275065352668}
+  - component: {fileID: 6865595080641736431}
   m_Layer: 0
   m_Name: ThirdPersonController
   m_TagString: Untagged
@@ -1552,7 +1552,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3778200274083727303}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.64142, y: 1.4321945, z: 1.799185}
+  m_LocalPosition: {x: 1.64142, y: 1.71, z: 1.799185}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3778200274083915119}
@@ -1644,7 +1644,7 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 1
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.3
---- !u!114 &3778200275065352668
+--- !u!114 &6865595080641736431
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1658,20 +1658,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SensorName: RayPerceptionSensor
   m_DetectableTags:
-  - wall
   - powerup
-  m_RaysPerDirection: 3
+  m_RaysPerDirection: 2
   m_MaxRayDegrees: 70
-  m_SphereCastRadius: 0.5
-  m_RayLength: 20
+  m_SphereCastRadius: 0.24
+  m_RayLength: 4
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291
   m_ObservationStacks: 1
-  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
-  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
-  m_StartVerticalOffset: 0.85
-  m_EndVerticalOffset: 0
+  rayHitColor: {r: 0.012865782, g: 1, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 0, b: 0, a: 1}
+  m_StartVerticalOffset: 1
+  m_EndVerticalOffset: 1
 --- !u!1 &3778200274083729269
 GameObject:
   m_ObjectHideFlags: 0
@@ -2933,8 +2932,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3778200274409484876}
   m_LocalRotation: {x: -0, y: -0.707107, z: -0, w: 0.7071066}
-  m_LocalPosition: {x: -4.8, y: 1.2, z: 0}
-  m_LocalScale: {x: 10, y: 2.3224, z: 0.5}
+  m_LocalPosition: {x: -4.8, y: 4.09, z: 0}
+  m_LocalScale: {x: 10, y: 9.23363, z: 0.5}
   m_Children: []
   m_Father: {fileID: 3778200275240107487}
   m_RootOrder: 4
@@ -3026,8 +3025,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3778200274724233671}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 4.8}
-  m_LocalScale: {x: 10, y: 2.3224, z: 0.5}
+  m_LocalPosition: {x: 0, y: 4.09, z: 4.8}
+  m_LocalScale: {x: 10, y: 9.23363, z: 0.5}
   m_Children: []
   m_Father: {fileID: 3778200275240107487}
   m_RootOrder: 2
@@ -3213,8 +3212,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3778200274905145042}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: -4.8}
-  m_LocalScale: {x: 10, y: 2.3224, z: 0.5}
+  m_LocalPosition: {x: 0, y: 4.09, z: -4.8}
+  m_LocalScale: {x: 10, y: 9.23363, z: 0.5}
   m_Children: []
   m_Father: {fileID: 3778200275240107487}
   m_RootOrder: 3
@@ -3306,8 +3305,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3778200274917607747}
   m_LocalRotation: {x: -0, y: -0.707107, z: -0, w: 0.7071066}
-  m_LocalPosition: {x: 4.8, y: 1.2, z: 0}
-  m_LocalScale: {x: 10, y: 2.3224, z: 0.5}
+  m_LocalPosition: {x: 4.8, y: 4.09, z: 0}
+  m_LocalScale: {x: 10, y: 9.23363, z: 0.5}
   m_Children: []
   m_Father: {fileID: 3778200275240107487}
   m_RootOrder: 5
@@ -3455,7 +3454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 0
+    VectorObservationSize: 3
     NumStackedVectorObservations: 1
     VectorActionSize: 02000000
     VectorActionDescriptions: []
@@ -3481,7 +3480,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
+  MaxStep: 500
   ground: {fileID: 3778200274869132964}
   powerupPrefab: {fileID: 3554750384731779907, guid: 378c9728fbb69174299b732891be4e2e,
     type: 3}
