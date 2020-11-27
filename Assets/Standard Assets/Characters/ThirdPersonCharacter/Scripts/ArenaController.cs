@@ -17,6 +17,10 @@ public class PlayerState
 
 public class ArenaController : MonoBehaviour
 {
+    // Where we store a list of all the Agents
+    public List<PlayerState> playerStates = new List<PlayerState>();
+    [HideInInspector]
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +30,6 @@ public class ArenaController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        playerStates.ForEach(Debug.Log);
     }
 }

@@ -15,12 +15,33 @@ public class PlayerAgent : Agent
     private Bounds bounds;
     private float wallSize = 2f;
     public GameObject powerupPrefab;
+    public ArenaController arenaController;
     public GameObject arena;
+    public Rigidbody agentRb;
+    int m_PlayerIndex;
 
     public override void Initialize()
     {
         userControl = GetComponentInChildren<ThirdPersonUserControl>();
         character = GetComponentInChildren<ThirdPersonCharacter>();
+
+        // When an Agent is initialized, add them to the list of Agents in the Area
+
+        // Upon initialization, create a new SoccerFieldArea.cs->PlayerState
+        var playerState = new PlayerState
+        {
+            agentRb = agentRb,
+            startingPos = transform.position,
+            agentScript = this,
+        };
+
+        // Add the Agent to the list of agents using its PlayerState
+        // Area is SoccerFieldArea.cs
+        arenaController.playerStates.Add(playerState);
+
+        // Set the member variable PlayerIndex to whichever index you pull back from the
+        // list that is kept in the Area
+        m_PlayerIndex = arenaController.playerStates.IndexOf(playerState);
     }
 
     public override void CollectObservations(VectorSensor sensor)
