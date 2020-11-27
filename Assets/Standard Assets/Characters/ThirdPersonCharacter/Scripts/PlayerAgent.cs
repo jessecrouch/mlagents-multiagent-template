@@ -7,7 +7,7 @@ using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Characters.ThirdPerson;
 
 public class PlayerAgent : Agent
-{
+{   
     private ThirdPersonUserControl userControl;
     private ThirdPersonCharacter character;
     public Transform ground;
